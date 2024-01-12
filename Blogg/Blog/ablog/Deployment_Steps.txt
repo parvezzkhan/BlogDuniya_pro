@@ -1,0 +1,64 @@
+1) Update System Packages:
+sudo apt-get update
+sudo apt-get upgrade
+
+
+2)Install Apache and mod_wsgi:
+sudo apt-get install apache2
+sudo apt-get install libapache2-mod-wsgi-py3
+
+3)Enable mod_wsgi:
+sudo a2enmod wsgi
+sudo service apache2 restart
+
+4)Install MySQL and Required Packages:
+sudo apt-get install mysql-server
+sudo apt-get install python3-dev libmysqlclient-dev
+
+5)Install Python and Set Up Virtual Environment:
+sudo apt-get install python3 python3-pip python3-venv
+cd /path/to/your/project
+python3 -m venv venv
+source venv/bin/activate
+
+6)Install Django and Other Dependencies:
+pip install -r requirements.txt
+	
+7)Migrate Database
+python manage.py migrate
+
+8)Collect Static Files:
+Collect Static Files:
+
+9)Create Apache Virtual Host Configuration:
+sudo nano /etc/apache2/sites-available/your_project.conf
+
+-<VirtualHost *:80>
+    ServerName your_domain_or_ip
+    DocumentRoot /path/to/your/project
+
+    <Directory /path/to/your/project>
+        <Files wsgi.py>
+            Require all granted
+        </Files>
+    </Directory>
+
+    WSGIDaemonProcess your_project python-home=/path/to/your/project/venv python-path=/path/to/your/project
+    WSGIProcessGroup your_project
+    WSGIScriptAlias / /path/to/your/project/your_project/wsgi.py
+</VirtualHost>
+
+10)Adjust File Permissions:
+sudo chown :www-data /path/to/your/project
+sudo chmod 775 /path/to/your/project
+
+11)Enable the Virtual Host and Restart Apache:
+sudo a2ensite your_project
+sudo service apache2 restart
+
+
+12)Update ALLOWED_HOSTS in Django Settings:
+
+if changes don restart the apache 
+
+Refer this to try deployement in another way :- https://medium.com/@deepankaracharyya/deploying-a-django-app-with-apache-mod-wsgi-windows-e9712dc07bba
